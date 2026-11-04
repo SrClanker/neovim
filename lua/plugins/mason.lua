@@ -1,3 +1,3 @@
 return {
-    'https://github.com/mason-org/mason.nvim.git'
+  'https://github.com/mason-org/mason.nvim.git'
 }
