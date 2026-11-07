@@ -16,9 +16,14 @@ require("config.lazy")
 require("oil").setup()
 require("lualine").setup()
 require("ibl").setup()
+
 require("mason").setup({
 	ui = {
-		icons = { package_installed = "✓", package_pending = "➜", package_uninstalled = "✗" },
+		icons = {
+			package_installed = "✓",
+			package_pending = "➜",
+			package_uninstalled = "✗",
+		},
 	},
 })
 
@@ -39,6 +44,7 @@ vim.cmd.colorscheme("catppuccin-mocha")
 require("conform").setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
+		c = { "clang-format" },
 		-- You can customize some of the format options for the filetype (:help conform.format)
 		rust = { "rustfmt", lsp_format = "fallback" },
 	},
@@ -71,6 +77,10 @@ vim.lsp.enable("clangd")
 vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
 	settings = {
-		Lua = { diagnostics = { globals = { "vim" } } },
+		Lua = {
+			diagnostics = {
+				globals = { "vim", "hl" },
+			},
+		},
 	},
 })
