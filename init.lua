@@ -1,5 +1,6 @@
 local set = vim.o
 set.cursorline = true
+set.termguicolors = true
 set.number = true
 set.relativenumber = true
 set.expandtab = true
@@ -17,6 +18,10 @@ require("oil").setup()
 require("lualine").setup()
 require("ibl").setup()
 
+require("transparent").clear_prefix("BufferLine")
+require("transparent").clear_prefix("NeoTree")
+require("transparent").clear_prefix("lualine")
+
 require("mason").setup({
 	ui = {
 		icons = {
@@ -29,16 +34,18 @@ require("mason").setup({
 
 require("catppuccin").setup({
 	flavour = "auto",
-	transparent_background = false,
+	transparent_background = true,
 	float = {
 		transparent = true,
 		solid = true,
 	},
+
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
 	},
 })
+
 vim.cmd.colorscheme("catppuccin-mocha")
 
 require("conform").setup({
@@ -48,6 +55,7 @@ require("conform").setup({
 		-- You can customize some of the format options for the filetype (:help conform.format)
 		rust = { "rustfmt", lsp_format = "fallback" },
 	},
+
 	format_on_save = {
 		-- These options will be passed to conform.format()
 		timeout_ms = 500,
@@ -55,11 +63,13 @@ require("conform").setup({
 	},
 })
 
+require("bufferline").setup({})
 require("nvim-treesitter").install({ "c", "lua", "rust" })
 require("nvim-treesitter").setup({
 	install_dir = vim.fn.stdpath("data") .. "/site",
 	indent = { enable = true },
 })
+
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = { "<filetype>" },
 	callback = function()
@@ -73,8 +83,14 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 
+vim.lsp.config("qml-language-server", {
+	cmd = { "qml-language-server" },
+	filetypes = { "qml" },
+	root_markers = { { "qmldir", "shell.qml" }, ".git" },
+})
+
+vim.lsp.enable("qml-language-server")
 vim.lsp.enable("clangd")
-vim.lsp.enable("lua_ls")
 vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
@@ -84,3 +100,4 @@ vim.lsp.config("lua_ls", {
 		},
 	},
 })
+vim.lsp.enable("lua_ls")
