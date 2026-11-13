@@ -47,6 +47,7 @@ require("catppuccin").setup({
 })
 
 vim.cmd.colorscheme("catppuccin-mocha")
+vim.cmd("Neotree")
 
 require("conform").setup({
 	formatters_by_ft = {
